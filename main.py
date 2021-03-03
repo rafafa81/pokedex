@@ -4,6 +4,7 @@ import json
 #variables
 pokeNumber=1
 response_json={'name':None}
+numberOfRows=20
 
 #loop to retrieve the information of every pokemon
 ### important - delete the limiter pokeNumber of the while condition 
