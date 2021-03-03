@@ -6,6 +6,9 @@ import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+#miscelanea de modulos importados
+import datetime
+
 #variables
 pokeNumber=1
 response_json={'name':None}
@@ -30,9 +33,18 @@ while response_json['name'] != "" and pokeNumber <= numberOfRows:
         #-------------------------------------------- 
         #sheet.update_cell(1,1,response_json['name'])
         column=1
+        actualizarFecha=False
         for ele in dataPoints:
-            sheet.update_cell(pokeNumber,column,response_json[ele])
-            column=column+1                    
+            timeUpdated=str(datetime.datetime.today())
+            if pokeNumber == 1:
+                sheet.update_cell(pokeNumber,column,dataPoints[column-1])
+            if sheet.cell(1,2).value != response_json[ele]:
+                sheet.update_cell(pokeNumber+1,column,response_json[ele])
+                column=column+1
+                actualizarFecha=True
+            if actualizarFecha and pokeNumber != 1:
+                sheet.update_cell(pokeNumber,(len(dataPoints))+1,timeUpdated)
+            
         #-------------------------------------------- 
         
         pokeNumber=pokeNumber+1
