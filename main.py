@@ -14,12 +14,14 @@ pokeNumber=1
 response_json={'name':None}
 numberOfRows=20
 dataPoints=['id','name','base_experience','height','weight']
+gspreadSheetName='pokedex'
+jsonGoogleKeyName='testSheets-3547a5e53a01.json'
 
 #configuration for the connection to the sreadsheet
 scope = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/spreadsheets']
-creds = ServiceAccountCredentials.from_json_keyfile_name("../testSheets-3547a5e53a01.json",scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name("../{0}".format(jsonGoogleKeyName),scope)
 client = gspread.authorize(creds)
-sheet = client.open("pokedex").sheet1
+sheet = client.open(gspreadSheetName).sheet1
 
 #loop to retrieve the information of every pokemon
 ### important - delete the limiter pokeNumber of the while condition 
