@@ -39,14 +39,23 @@ while response_json['name'] != "" and pokeNumber <= numberOfRows:
         for ele in dataPoints:
             timeUpdated=str(datetime.datetime.today())
             if pokeNumber == 1:
-                sheet.update_cell(pokeNumber,column,dataPoints[column-1])
+                try:
+                    sheet.update_cell(pokeNumber,column,dataPoints[column-1])
+                except Exception:
+                    print("google spreeadsheet max write limit")
             if sheet.cell(1,2).value != response_json[ele]:
-                sheet.update_cell(pokeNumber+1,column,response_json[ele])
+                try:
+                    sheet.update_cell(pokeNumber+1,column,response_json[ele])
+                except Exception:
+                    print("google spreeadsheet max write limit")
                 column=column+1
                 actualizarFecha=True
             if actualizarFecha and pokeNumber != 1:
-                sheet.update_cell(pokeNumber,(len(dataPoints))+1,timeUpdated)
-            
+                try:
+                    sheet.update_cell(pokeNumber,(len(dataPoints))+1,timeUpdated)
+                except Exception:
+                    print("google spreeadsheet max write limit")
+                            
         #-------------------------------------------- 
         
         pokeNumber=pokeNumber+1
