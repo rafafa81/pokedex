@@ -44,7 +44,7 @@ while response_json['name'] != "" and pokeNumber <= numberOfRows:
                 except Exception:
                     print("google spreeadsheet max write limit")
                     break
-            if sheet.cell(1,2).value != response_json[ele]:
+            if sheet.cell(pokeNumber,column).value != response_json[ele] and pokeNumber > 1 :
                 try:
                     sheet.update_cell(pokeNumber+1,column,response_json[ele])
                 except Exception:
