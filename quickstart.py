@@ -1,5 +1,6 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import json
 
 scope = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/spreadsheets']
 
@@ -7,10 +8,29 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("../testSheets-3547a5e5
 
 client = gspread.authorize(creds)
 
-sheet = client.open("pokedex").sheet1
+'''service = build('sheets', 'v4', credentials=creds)
 
-sheet.update_cell(1,1,"volv")
+spreadsheet = {
+    'properties': {
+        'title': 'pokedex' 
+    }
+}
+spreadsheet = service.spreadsheets().create(body=spreadsheet,
+                                    fields='spreadsheetId').execute()'''
 
+sheet = client.open("pokedex")
+
+
+
+
+try:
+    newSheet = sheet.add_worksheet(title='new', rows='100',cols='100')
+except gspread.exceptions.APIError as e:
+    #E=dict(e)
+    #E=json.loads(E)
+    print(e)
+wsheet = sheet.worksheet('new')
+wsheet.update_cell(1,1,"volv")
 
 
 
