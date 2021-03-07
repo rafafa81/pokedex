@@ -18,17 +18,21 @@ dataPoints=['id','name','base_experience','height','weight']
 gspreadSheetName='pokedex'
 jsonGoogleKeyName='testSheets-3547a5e53a01.json'
 sleepTime=1
+gSheetNum=1
 
 #configuration for the connection to the sreadsheet
 scope = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/spreadsheets']
 creds = ServiceAccountCredentials.from_json_keyfile_name("../{0}".format(jsonGoogleKeyName),scope)
 client = gspread.authorize(creds)
-sheet = client.open(gspreadSheetName).sheet1
+sheet = client.open(gspreadSheetName)
 
 #loop to retrieve the information of every pokemon
-### important - delete the limiter pokeNumber of the while condition 
-while response_json['name'] != "" and pokeNumber <= numberOfRows:
+### important - delete the limiter pokeNumber of the while condition
+
+while response_json['name'] != "": 
     try:
+        wsheet=sheet.worksheet('Hoja{0}'.format(gSheetNum))
+        time.sleep(sleepTime)
         httpsURL='https://pokeapi.co/api/v2/pokemon/{0}/'.format(pokeNumber)
         response=requests.get(httpsURL)
     except Exception:
@@ -44,21 +48,21 @@ while response_json['name'] != "" and pokeNumber <= numberOfRows:
         for ele in dataPoints:
             timeUpdated=str(datetime.datetime.today())
             try:
-                    vTmpPoke=str(sheet.cell(pokeNumber+1,column).value)
+                    vTmpPoke=str(wsheet.cell(pokeNumber+1,column).value)
                     time.sleep(sleepTime)
             except Exception:
                     print("google spreeadsheet max write limit")
                     break
             if pokeNumber == 1:
                 try:
-                    sheet.update_cell(pokeNumber,column,dataPoints[column-1])
+                    wsheet.update_cell(pokeNumber,column,dataPoints[column-1])
                     time.sleep(sleepTime)
                 except Exception:
                     print("google spreeadsheet max write limit")
                     break
             if vTmpPoke != str(response_json[ele]) :
                 try:                 
-                    sheet.update_cell(pokeNumber+1,column,response_json[ele])
+                    wsheet.update_cell(pokeNumber+1,column,response_json[ele])
                     time.sleep(sleepTime)                  
                 except Exception:
                     print("google spreeadsheet max write limit")
@@ -66,16 +70,21 @@ while response_json['name'] != "" and pokeNumber <= numberOfRows:
                 actualizarFecha=True
             if actualizarFecha and ele == 'weight':
                 try:
-                    sheet.update_cell(pokeNumber+1,(len(dataPoints))+1,timeUpdated)
+                    wsheet.update_cell(pokeNumber+1,(len(dataPoints))+1,timeUpdated)
                     time.sleep(sleepTime)
                 except Exception:
                     print("google spreeadsheet max write limit")
                     break
             column=column+1               
         #-------------------------------------------- 
-        
-        pokeNumber=pokeNumber+1
-        
+        if pokeNumber % numberOfRows == 0 :
+            gSheetNum=gSheetNum+1
+            try:
+                newSheet= sheet.add_worksheet(title='Hoja{0}'.format(gSheetNum),rows=100,cols=100)
+                time.sleep(sleepTime)
+            except Exception:
+                print("The spreadshet already exist")
+        pokeNumber=pokeNumber+1   
     else:
         
         #in case the get request fails
