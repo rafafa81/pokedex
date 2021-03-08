@@ -20,6 +20,7 @@ jsonGoogleKeyName='testSheets-3547a5e53a01.json'
 sleepTime=2
 gSheetNum=1
 pageCounter=1
+maxPokemons=50
 
 
 
@@ -32,7 +33,7 @@ sheet = client.open(gspreadSheetName)
 #loop to retrieve the information of every pokemon
 ### important - delete the limiter pokeNumber of the while condition
 
-while response_json['name'] != "": 
+while response_json['name'] != "" or pokeNumber >= maxPokemon: 
     try:
         wsheet=sheet.worksheet('Hoja{0}'.format(gSheetNum))
         time.sleep(sleepTime)
