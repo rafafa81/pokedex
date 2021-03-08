@@ -20,15 +20,10 @@ spreadsheet = service.spreadsheets().create(body=spreadsheet,
 
 sheet = client.open("pokedex")
 
-
-
-
 try:
     newSheet = sheet.add_worksheet(title='new', rows='100',cols='100')
 except gspread.exceptions.APIError as e:
-    #E=dict(e)
-    #E=json.loads(E)
-    print(e)
+        print(e)
 wsheet = sheet.worksheet('new')
 wsheet.update_cell(1,1,"volv")
 
