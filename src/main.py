@@ -16,24 +16,24 @@ response_json={'name':None}
 numberOfRows=20
 dataPoints=['id','name','base_experience','height','weight']
 gspreadSheetName='pokedex'
-jsonGoogleKeyName='testSheets-3547a5e53a01.json'
+jsonGoogleKeyName='/var/tmp/src/testSheets-3547a5e53a01.json'
 sleepTime=2
 gSheetNum=1
 pageCounter=1
-maxPokemons=50
+maxPokemon=50
 
 
 
 #configuration for the connection to the sreadsheet
 scope = ['https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/drive.file','https://www.googleapis.com/auth/spreadsheets']
-creds = ServiceAccountCredentials.from_json_keyfile_name("../{0}".format(jsonGoogleKeyName),scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name(jsonGoogleKeyName,scope)
 client = gspread.authorize(creds)
 sheet = client.open(gspreadSheetName)
 
 #loop to retrieve the information of every pokemon
 ### important - delete the limiter pokeNumber of the while condition
 
-while response_json['name'] != "" or pokeNumber <= maxPokemon: 
+while response_json['name'] != "" and pokeNumber <= maxPokemon: 
     try:
         wsheet=sheet.worksheet('Hoja{0}'.format(gSheetNum))
         time.sleep(sleepTime)
@@ -96,7 +96,6 @@ while response_json['name'] != "" or pokeNumber <= maxPokemon:
                 pageCounter=1
         pokeNumber=pokeNumber+1
         time.sleep(sleepTime)
-        print(pageCounter)
     else:
         
         #in case the get request fails
