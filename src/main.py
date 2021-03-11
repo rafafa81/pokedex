@@ -10,17 +10,26 @@ from oauth2client.service_account import ServiceAccountCredentials
 import datetime
 import time
 
+#manejo de argumentos
+import argparse
+
+parser=argparse.ArgumentParser(description='this application takes the information of the pokemons throug the pokeapi and place them on a google spreadsheet')
+parser.add_argument('-p','--pagination',type=int,metavar='',required=False,default=20,help='number of pokemon on a sheet, as default it is 20')
+parser.add_argument('-m','--maxpokemons',type=int,metavar='',required=False,default=50,help='this are the maximum number of pokemons on the spreadsheet')
+args=parser.parse_args()
+
+
 #variables
 pokeNumber=1
 response_json={'name':None}
-numberOfRows=20
+numberOfRows=args.pagination
 dataPoints=['id','name','base_experience','height','weight']
 gspreadSheetName='pokedex'
 jsonGoogleKeyName='/var/tmp/src/key.json'
 sleepTime=2
 gSheetNum=1
 pageCounter=1
-maxPokemon=50
+maxPokemon=args.maxpokemons
 
 
 
@@ -104,3 +113,4 @@ while response_json['name'] != "" and pokeNumber <= maxPokemon:
 
 
 
+'''
