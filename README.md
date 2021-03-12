@@ -3,9 +3,10 @@ Hello everyone with this software helps you to fill a google spreadsheet with th
 
 configure your token from the google project and create a new spreadsheet in google to fill it, once you have your token paste it on the /var/tmp/src folder as key.json
 
-on this branch we will create  the new imagee with the file to connect 
+on this branch we will create  the new imagee with the file to connect
 
-cat Dockerfile
+Dockerfile:
+```
 FROM rafafa81/pokedex
 COPY key.json /var/tmp/src/key.json
-
+```
