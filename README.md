@@ -8,3 +8,7 @@ Dockerfile:
 FROM rafafa81/pokedex
 COPY key.json /var/tmp/src/key.json
 ```
+Command to run the script on creation:
+```
+sudo docker run pokedex python3 /var/tmp/src/main.py
+```
