@@ -5,7 +5,6 @@ configure your token from the google project and create a new spreadsheet in goo
 
 on this branch we will create  the new imagee with the file to connect 
 
-# Complete image
 cat Dockerfile
 FROM rafafa81/pokedex
 COPY key.json /var/tmp/src/key.json
