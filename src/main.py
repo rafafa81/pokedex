@@ -15,7 +15,7 @@ import argparse
 
 parser=argparse.ArgumentParser(description='this application takes the information of the pokemons throug the pokeapi and place them on a google spreadsheet')
 parser.add_argument('-p','--pagination',type=int,metavar='',required=False,default=20,help='number of pokemon on a sheet, as default it is 20')
-parser.add_argument('-m','--maxpokemons',type=int,metavar='',required=False,default=50,help='this are the maximum number of pokemons on the spreadsheet')
+parser.add_argument('-m','--maxpokemons',type=int,metavar='',required=False,default=50,help='this are the maximum number of pokemons on the spreadsheet, the default is 50')
 args=parser.parse_args()
 
 
@@ -111,6 +111,3 @@ while response_json['name'] != "" and pokeNumber <= maxPokemon:
         response_json['name']=""
         print("Failed to connect to pokeAPI")
 
-
-
-'''
